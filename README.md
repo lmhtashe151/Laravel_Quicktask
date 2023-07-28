@@ -144,3 +144,13 @@ foreach ($office->users as $user) {
     echo " - Pivot Data: " . $user->pivot->column_name;
 }
 
+----------------------------------------------------------------------------------------------------------------------------Task 5
+1. Seeder/Factory/Faker dùng để làm gì?
+- Seeder: Seeder là một cơ chế trong Laravel cho phép bạn gieo (seed) dữ liệu mẫu vào cơ sở dữ liệu. Các seeders thường được sử dụng để tạo dữ liệu mẫu ban đầu, ví dụ như tạo người dùng admin ban đầu hoặc tạo dữ liệu cho các bảng cơ sở dữ liệu cần thiết để phát triển và kiểm thử ứng dụng.
+- Factory: Factory là một cơ chế trong Laravel để xác định cách tạo dữ liệu mẫu cho các model. Nó được sử dụng để tạo dữ liệu giả lập và đa dạng hơn, giúp kiểm tra ứng dụng một cách tự động và dễ dàng. Factory sử dụng Faker để tạo các giá trị giả lập cho các thuộc tính của model.
+- Faker: Faker là một thư viện PHP dùng để tạo dữ liệu giả mạo như tên, địa chỉ, số điện thoại, văn bản ngẫu nhiên và nhiều loại dữ liệu khác. Laravel tích hợp Faker và sử dụng nó trong Factory để tạo dữ liệu ngẫu nhiên cho các model.
+
+2. Khi nào nên sử dụng Seeder? Khi nào nên sử dụng Factory?
+- Seeder: Seeder thường được sử dụng khi bạn muốn tạo dữ liệu mẫu ban đầu cho ứng dụng của mình. Ví dụ, bạn có thể sử dụng Seeder để tạo người dùng admin ban đầu, tạo dữ liệu mẫu cho các bảng cơ sở dữ liệu, hoặc tạo dữ liệu giả cho kiểm tra và phát triển. Seeder giúp bạn có dữ liệu cơ bản để phát triển và thử nghiệm ứng dụng một cách dễ dàng.
+
+- Factory: Factory được sử dụng khi bạn muốn tạo nhiều bản ghi giả mạo cho model của mình. Ví dụ, bạn có thể sử dụng Factory để tạo 100 người dùng giả mạo cho mục đích kiểm tra hiệu năng hoặc tạo dữ liệu mẫu cho việc phát triển. Factory cung cấp sự linh hoạt và tính tái sử dụng, cho phép bạn tạo dữ liệu mẫu với nhiều trường hợp và giá trị khác nhau.
