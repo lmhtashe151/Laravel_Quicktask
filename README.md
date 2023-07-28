@@ -143,4 +143,177 @@ foreach ($office->users as $user) {
     echo "User ID: " . $user->id;
     echo " - Pivot Data: " . $user->pivot->column_name;
 }
+----------------------------------------------------------------------------------------------------------------------------
+Task4:
+1. Accessors/Mutators dùng để làm gì?
+Accessors: Accessors cho phép bạn truy cập và xử lý giá trị của một thuộc tính trong model trước khi nó được trả về cho người dùng. Khi bạn muốn thay đổi hoặc làm gì đó với giá trị của một thuộc tính trước khi nó được truy cập từ ngoài, bạn có thể sử dụng Accessors để thực hiện điều này. Accessors thường được đặt tên theo mẫu "get<PropertyName>Attribute".
+
+Mutators: Mutators cho phép bạn xử lý giá trị của một thuộc tính trong model trước khi nó được lưu vào cơ sở dữ liệu. Khi bạn muốn thay đổi hoặc chuẩn hóa giá trị của một thuộc tính trước khi lưu nó vào cơ sở dữ liệu, bạn có thể sử dụng Mutators để thực hiện điều này. Mutators thường được đặt tên theo mẫu "set<PropertyName>Attribute".
+
+2. Tạo Accessors/Mutators như thế nào?
+Tạo Accessors:
+Để tạo Accessor cho một thuộc tính trong model, bạn chỉ cần thêm một phương thức vào model với tên theo mẫu "get<PropertyName>Attribute". Ví dụ, để tạo Accessor cho thuộc tính "full_name" (tổng hợp của first_name và last_name), bạn có thể làm như sau:
+    public function getFullNameAttribute()
+    {
+        return $this->attributes['first_name'] . ' ' . $this->attributes['last_name'];
+    }
+
+Accessors/Mutators dùng để làm gì?
+Accessors: Accessors cho phép bạn truy cập và xử lý giá trị của một thuộc tính trong model trước khi nó được trả về cho người dùng. Khi bạn muốn thay đổi hoặc làm gì đó với giá trị của một thuộc tính trước khi nó được truy cập từ ngoài, bạn có thể sử dụng Accessors để thực hiện điều này. Accessors thường được đặt tên theo mẫu "get<PropertyName>Attribute".
+
+Mutators: Mutators cho phép bạn xử lý giá trị của một thuộc tính trong model trước khi nó được lưu vào cơ sở dữ liệu. Khi bạn muốn thay đổi hoặc chuẩn hóa giá trị của một thuộc tính trước khi lưu nó vào cơ sở dữ liệu, bạn có thể sử dụng Mutators để thực hiện điều này. Mutators thường được đặt tên theo mẫu "set<PropertyName>Attribute".
+
+Tạo Accessors/Mutators như thế nào?
+Tạo Accessors:
+Để tạo Accessor cho một thuộc tính trong model, bạn chỉ cần thêm một phương thức vào model với tên theo mẫu "get<PropertyName>Attribute". Ví dụ, để tạo Accessor cho thuộc tính "full_name" (tổng hợp của first_name và last_name), bạn có thể làm như sau:
+
+php
+Copy code
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class User extends Model
+{
+    // ... Các khai báo khác trong model ...
+
+    public function getFullNameAttribute()
+    {
+        return $this->attributes['first_name'] . ' ' . $this->attributes['last_name'];
+    }
+}
+Khi bạn gọi thuộc tính "full_name" trên một đối tượng User, Laravel sẽ tự động gọi phương thức getFullNameAttribute() và trả về giá trị mà phương thức trả về.
+Tạo Mutators:
+Để tạo Mutator cho một thuộc tính trong model, bạn cũng cần thêm một phương thức vào model với tên theo mẫu "set<PropertyName>Attribute". Ví dụ, để tạo Mutator cho thuộc tính "username" và biến đổi giá trị thành chuỗi slug, bạn có thể làm như sau:
+public function setUsernameAttribute($value)
+    {
+        $this->attributes['username'] = Str::slug($value);
+    }
+
+Khi bạn gán giá trị cho thuộc tính "username" trên một đối tượng User, Laravel sẽ tự động gọi phương thức setUsernameAttribute() và xử lý giá trị trước khi lưu nó vào cơ sở dữ liệu.
+
+3. Scope dùng để làm gì?
+- Scope trong Laravel là một cơ chế mạnh mẽ cho phép bạn định nghĩa các truy vấn ước lượng (query shortcuts) trong model. Điều này giúp bạn tái sử dụng các truy vấn phổ biến và giảm lượng mã trùng lặp trong ứng dụng của mình. Scopes cho phép bạn đặt tên các phương thức trong model để thêm các điều kiện truy vấn vào câu lệnh SELECT, WHERE, ORDER BY và các truy vấn khác.
+
+4. Nêu các loại scope của Laravel?
+- Local Scopes: Local scopes là các phương thức được định nghĩa trong model để thêm điều kiện vào truy vấn. Các phương thức local scope thường bắt đầu với từ khóa "scope" và sau đó là tên của scope. Ví dụ:
+public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
+    public function scopePopular($query)
+    {
+        return $query->where('views', '>', 1000);
+    }
+Sau khi định nghĩa các local scopes như trên, bạn có thể sử dụng chúng trong truy vấn của model:
+// Sử dụng local scope "active"
+$activeProducts = Product::active()->get();
+
+// Sử dụng local scope "popular"
+$popularProducts = Product::popular()->get();
+
+- Global Scopes: Global scopes là các điều kiện mà bạn muốn áp dụng tự động vào tất cả các truy vấn của model. Global scopes được định nghĩa bằng cách triển khai giao diện "Illuminate\Database\Eloquent\Scope" và sử dụng phương thức "apply" để định nghĩa điều kiện truy vấn.
+
+Scope dùng để làm gì?
+Scope trong Laravel là một cơ chế mạnh mẽ cho phép bạn định nghĩa các truy vấn ước lượng (query shortcuts) trong model. Điều này giúp bạn tái sử dụng các truy vấn phổ biến và giảm lượng mã trùng lặp trong ứng dụng của mình. Scopes cho phép bạn đặt tên các phương thức trong model để thêm các điều kiện truy vấn vào câu lệnh SELECT, WHERE, ORDER BY và các truy vấn khác.
+
+Nêu các loại scope của Laravel?
+Laravel hỗ trợ hai loại scope chính:
+
+Local Scopes: Local scopes là các phương thức được định nghĩa trong model để thêm điều kiện vào truy vấn. Các phương thức local scope thường bắt đầu với từ khóa "scope" và sau đó là tên của scope. Ví dụ:
+php
+Copy code
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Product extends Model
+{
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
+    public function scopePopular($query)
+    {
+        return $query->where('views', '>', 1000);
+    }
+}
+Sau khi định nghĩa các local scopes như trên, bạn có thể sử dụng chúng trong truy vấn của model:
+
+php
+Copy code
+// Sử dụng local scope "active"
+$activeProducts = Product::active()->get();
+
+// Sử dụng local scope "popular"
+$popularProducts = Product::popular()->get();
+Global Scopes: Global scopes là các điều kiện mà bạn muốn áp dụng tự động vào tất cả các truy vấn của model. Global scopes được định nghĩa bằng cách triển khai giao diện "Illuminate\Database\Eloquent\Scope" và sử dụng phương thức "apply" để định nghĩa điều kiện truy vấn.
+Ví dụ, để áp dụng một global scope vào model User để chỉ lấy các user có trạng thái là "active":
+    public function apply(Builder $builder, Model $model)
+    {
+        $builder->where('status', 'active');
+    }
+Sau đó, bạn cần đăng ký global scope trong model bằng cách sử dụng phương thức "addGlobalScope":
+    protected static function booted()
+    {
+        static::addGlobalScope(new ActiveScope);
+    }
+Bây giờ, mọi truy vấn trên model User sẽ tự động áp dụng điều kiện "status = 'active'" mà không cần gọi phương thức "active()" một cách riêng biệt.
+----------------------------------------------------------------------------------------------------------------------------Task 5
+1. Seeder/Factory/Faker dùng để làm gì?
+- Seeder: Seeder là một cơ chế trong Laravel cho phép bạn gieo (seed) dữ liệu mẫu vào cơ sở dữ liệu. Các seeders thường được sử dụng để tạo dữ liệu mẫu ban đầu, ví dụ như tạo người dùng admin ban đầu hoặc tạo dữ liệu cho các bảng cơ sở dữ liệu cần thiết để phát triển và kiểm thử ứng dụng.
+- Factory: Factory là một cơ chế trong Laravel để xác định cách tạo dữ liệu mẫu cho các model. Nó được sử dụng để tạo dữ liệu giả lập và đa dạng hơn, giúp kiểm tra ứng dụng một cách tự động và dễ dàng. Factory sử dụng Faker để tạo các giá trị giả lập cho các thuộc tính của model.
+- Faker: Faker là một thư viện PHP dùng để tạo dữ liệu giả mạo như tên, địa chỉ, số điện thoại, văn bản ngẫu nhiên và nhiều loại dữ liệu khác. Laravel tích hợp Faker và sử dụng nó trong Factory để tạo dữ liệu ngẫu nhiên cho các model.
+
+2. Khi nào nên sử dụng Seeder? Khi nào nên sử dụng Factory?
+- Seeder: Seeder thường được sử dụng khi bạn muốn tạo dữ liệu mẫu ban đầu cho ứng dụng của mình. Ví dụ, bạn có thể sử dụng Seeder để tạo người dùng admin ban đầu, tạo dữ liệu mẫu cho các bảng cơ sở dữ liệu, hoặc tạo dữ liệu giả cho kiểm tra và phát triển. Seeder giúp bạn có dữ liệu cơ bản để phát triển và thử nghiệm ứng dụng một cách dễ dàng.
+
+- Factory: Factory được sử dụng khi bạn muốn tạo nhiều bản ghi giả mạo cho model của mình. Ví dụ, bạn có thể sử dụng Factory để tạo 100 người dùng giả mạo cho mục đích kiểm tra hiệu năng hoặc tạo dữ liệu mẫu cho việc phát triển. Factory cung cấp sự linh hoạt và tính tái sử dụng, cho phép bạn tạo dữ liệu mẫu với nhiều trường hợp và giá trị khác nhau.
+
+----------------------------------------------------------------------------------------------------------------------------
+Task6:
+1. Mô tả cấu trúc một route trong Laravel:
+Một route trong Laravel thường bao gồm các thành phần sau:
+- HTTP Verb (Phương thức HTTP): Đây là phương thức HTTP như GET, POST, PUT, PATCH, DELETE, ...
+- URL: Địa chỉ URL mà route sẽ trả về kết quả.
+- Callback (Closure hoặc Controller method): Một callback được gắn với route để xử lý yêu cầu của người dùng. Callback có thể là một hàm Closure hoặc một phương thức trong Controller.
+
+2.Kể tên các hàm trong Resources Controller và phương thức/công dụng tương ứng:
+Laravel cung cấp một số hàm (phương thức) chuẩn trong Resources Controller để xử lý các tương tác thông thường với resource:
+- index: Xem danh sách các resource.
+- create: Hiển thị giao diện tạo mới resource.
+- store: Lưu thông tin tạo mới resource vào cơ sở dữ liệu.
+- show: Hiển thị thông tin chi tiết của một resource.
+- edit: Hiển thị giao diện chỉnh sửa thông tin của resource.
+- update: Cập nhật thông tin của resource vào cơ sở dữ liệu.
+- destroy: Xóa một resource khỏi cơ sở dữ liệu. 
+
+----------------------------------------------------------------------------------------------------------------------------
+Task7:
+1. Khái niệm và tác dụng của middleware:
+- Middleware trong Laravel là một cơ chế giúp bạn xử lý các yêu cầu HTTP trước khi chúng được chuyển đến route hoặc sau khi chúng rời khỏi route. Nó hoạt động như một lớp trung gian (intermediary) giữa yêu cầu và route, cho phép bạn thực hiện các tác vụ kiểm tra, xử lý, hay chuyển hướng yêu cầu trước khi nó đến được xử lý bởi controller hoặc sau khi controller đã xử lý xong.
+
+- Tác dụng của middleware bao gồm:
+Xác thực người dùng: Kiểm tra xem người dùng đã đăng nhập hay chưa và xác thực thông tin đăng nhập của họ.
+Phân quyền truy cập: Kiểm tra xem người dùng có quyền truy cập vào các route hay không, dựa trên vai trò hoặc quyền hạn của họ.
+Ghi log: Ghi lại các hoạt động của người dùng hoặc thông tin quan trọng vào file log.
+Xử lý CORS (Cross-Origin Resource Sharing): Cho phép hoặc từ chối các yêu cầu từ các nguồn khác nhau trên trình duyệt web.
+Thêm thông tin vào request/response: Bổ sung dữ liệu vào request hoặc response trước khi chúng được xử lý bởi controller hoặc gửi trả về cho người dùng.
+
+- Để khởi tạo và đăng ký middleware, bạn cần tạo một lớp middleware mới bằng lệnh artisan:
+php artisan make:middleware MyMiddleware
+
+2. Middleware group là cơ chế cho phép bạn đăng ký nhiều middleware cùng lúc và áp dụng chúng cho nhiều route hoặc controller một cách dễ dàng. Group middleware giúp bạn quản lý tốt hơn các middleware liên quan đến nhóm cụ thể của route hoặc controller.
+
+3. Middleware dùng để làm gì?
+- Middleware trong Laravel là một cơ chế mạnh mẽ cho phép bạn xử lý các yêu cầu HTTP trước khi chúng được chuyển tới các Route hoặc sau khi chúng được chuyển ra khỏi Route. Middleware cho phép bạn thực hiện các xác thực, xử lý dữ liệu, kiểm tra quyền truy cập và thực hiện các tác vụ chung khác trước khi xử lý yêu cầu của người dùng. Nó giúp bạn tái sử dụng mã xử lý cho các tác vụ chung và giúp bạn tách biệt logic xử lý yêu cầu từ logic xử lý kết quả.
+
+4. Phân biệt Global Middleware, Group Middleware và Route Middleware:
+- Global Middleware: Global Middleware là các Middleware được đăng ký một lần và được áp dụng cho mọi yêu cầu vào ứng dụng. Điều này có nghĩa là mọi yêu cầu HTTP đều sẽ đi qua các Global Middleware trước khi đến route. Để đăng ký Global Middleware, bạn cần chỉnh sửa tập tin App\Http\Kernel.php. Các Global Middleware được định nghĩa trong thuộc tính $middleware.
+
+- Group Middleware: Group Middleware là các Middleware được đăng ký và áp dụng cho một nhóm route cụ thể. Bạn có thể nhóm nhiều route lại và áp dụng cùng một Middleware cho tất cả các route trong nhóm đó. Điều này giúp tiết kiệm công sức khi áp dụng cùng một Middleware cho nhiều route. Để đăng ký Group Middleware, bạn cần chỉnh sửa tập tin App\Http\Kernel.php. Các Group Middleware được định nghĩa trong thuộc tính $middlewareGroups.
+
+- Route Middleware: Route Middleware là các Middleware được áp dụng cho một route cụ thể. Bạn có thể định nghĩa tên cho Middleware và sau đó sử dụng tên đó khi đăng ký Middleware cho route. Để đăng ký Route Middleware, bạn cần chỉnh sửa tập tin App\Http\Kernel.php. Các Route Middleware được định nghĩa trong thuộc tính $routeMiddleware.
 
