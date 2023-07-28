@@ -43,3 +43,12 @@ Route::middleware('checkAdmin')->group(function () {
     // Các route CRUD user chỉ có quyền truy cập với người dùng là admin
     Route::resource('users', UserController::class);
 });
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});

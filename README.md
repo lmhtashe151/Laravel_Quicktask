@@ -317,3 +317,19 @@ php artisan make:middleware MyMiddleware
 
 - Route Middleware: Route Middleware là các Middleware được áp dụng cho một route cụ thể. Bạn có thể định nghĩa tên cho Middleware và sau đó sử dụng tên đó khi đăng ký Middleware cho route. Để đăng ký Route Middleware, bạn cần chỉnh sửa tập tin App\Http\Kernel.php. Các Route Middleware được định nghĩa trong thuộc tính $routeMiddleware.
 
+----------------------------------------------------------------------------------------------------------------------------
+Task8:
+
+1. Các route tương ứng trong Auth::route() là gì?
+Trong Laravel, phương thức Auth::routes() được sử dụng để đăng ký các route liên quan đến chức năng authentication. Cụ thể, Auth::routes() đăng ký các route sau:
+/login: Route xử lý đăng nhập, chấp nhận yêu cầu POST để xác thực người dùng.
+/logout: Route xử lý đăng xuất, chấp nhận yêu cầu POST để đăng xuất người dùng.
+/register: Route xử lý đăng ký, chấp nhận yêu cầu POST để đăng ký người dùng mới.
+/password/reset: Route hiển thị form nhập email để gửi yêu cầu reset mật khẩu.
+/password/email: Route xử lý gửi email chứa liên kết đặt lại mật khẩu sau khi người dùng yêu cầu.
+/password/reset/{token}: Route hiển thị form nhập mật khẩu mới sau khi người dùng nhấn vào liên kết đặt lại mật khẩu trong email.
+
+2. Khi cần bổ sung logic login, phải sửa ở đâu?
+- Xử lý đăng nhập: Mặc định, Laravel đã cung cấp logic xác thực đăng nhập bằng email và password. Tuy nhiên, nếu bạn cần bổ sung thêm logic kiểm tra, xử lý hoặc validation trước khi người dùng được đăng nhập vào hệ thống, bạn có thể chỉnh sửa phương thức login trong LoginController.
+- Xử lý đăng xuất: Nếu bạn muốn thêm bước xử lý hoặc thông báo sau khi người dùng đăng xuất, bạn có thể chỉnh sửa phương thức logout trong LoginController.
+- Xử lý điều hướng sau khi đăng nhập: Mặc định, sau khi người dùng đăng nhập thành công, Laravel sẽ điều hướng người dùng đến URL /home. Nếu bạn muốn điều hướng người dùng đến một trang khác sau khi đăng nhập, bạn có thể chỉnh sửa thuộc tính $redirectTo trong LoginController.
