@@ -9,6 +9,12 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
+    // public function __construct()
+    // {
+    //     // Áp dụng middleware CheckAdmin cho tất cả các phương thức trong UserController
+    //     $this->middleware(CheckAdmin::class);
+    // }
+
     public function index()
     {
         //

@@ -292,10 +292,25 @@ Laravel cung cấp một số hàm (phương thức) chuẩn trong Resources Con
 
 ----------------------------------------------------------------------------------------------------------------------------
 Task7:
-1. Middleware dùng để làm gì?
+1. Khái niệm và tác dụng của middleware:
+- Middleware trong Laravel là một cơ chế giúp bạn xử lý các yêu cầu HTTP trước khi chúng được chuyển đến route hoặc sau khi chúng rời khỏi route. Nó hoạt động như một lớp trung gian (intermediary) giữa yêu cầu và route, cho phép bạn thực hiện các tác vụ kiểm tra, xử lý, hay chuyển hướng yêu cầu trước khi nó đến được xử lý bởi controller hoặc sau khi controller đã xử lý xong.
+
+- Tác dụng của middleware bao gồm:
+Xác thực người dùng: Kiểm tra xem người dùng đã đăng nhập hay chưa và xác thực thông tin đăng nhập của họ.
+Phân quyền truy cập: Kiểm tra xem người dùng có quyền truy cập vào các route hay không, dựa trên vai trò hoặc quyền hạn của họ.
+Ghi log: Ghi lại các hoạt động của người dùng hoặc thông tin quan trọng vào file log.
+Xử lý CORS (Cross-Origin Resource Sharing): Cho phép hoặc từ chối các yêu cầu từ các nguồn khác nhau trên trình duyệt web.
+Thêm thông tin vào request/response: Bổ sung dữ liệu vào request hoặc response trước khi chúng được xử lý bởi controller hoặc gửi trả về cho người dùng.
+
+- Để khởi tạo và đăng ký middleware, bạn cần tạo một lớp middleware mới bằng lệnh artisan:
+php artisan make:middleware MyMiddleware
+
+2. Middleware group là cơ chế cho phép bạn đăng ký nhiều middleware cùng lúc và áp dụng chúng cho nhiều route hoặc controller một cách dễ dàng. Group middleware giúp bạn quản lý tốt hơn các middleware liên quan đến nhóm cụ thể của route hoặc controller.
+
+3. Middleware dùng để làm gì?
 - Middleware trong Laravel là một cơ chế mạnh mẽ cho phép bạn xử lý các yêu cầu HTTP trước khi chúng được chuyển tới các Route hoặc sau khi chúng được chuyển ra khỏi Route. Middleware cho phép bạn thực hiện các xác thực, xử lý dữ liệu, kiểm tra quyền truy cập và thực hiện các tác vụ chung khác trước khi xử lý yêu cầu của người dùng. Nó giúp bạn tái sử dụng mã xử lý cho các tác vụ chung và giúp bạn tách biệt logic xử lý yêu cầu từ logic xử lý kết quả.
 
-2. Phân biệt Global Middleware, Group Middleware và Route Middleware:
+4. Phân biệt Global Middleware, Group Middleware và Route Middleware:
 - Global Middleware: Global Middleware là các Middleware được đăng ký một lần và được áp dụng cho mọi yêu cầu vào ứng dụng. Điều này có nghĩa là mọi yêu cầu HTTP đều sẽ đi qua các Global Middleware trước khi đến route. Để đăng ký Global Middleware, bạn cần chỉnh sửa tập tin App\Http\Kernel.php. Các Global Middleware được định nghĩa trong thuộc tính $middleware.
 
 - Group Middleware: Group Middleware là các Middleware được đăng ký và áp dụng cho một nhóm route cụ thể. Bạn có thể nhóm nhiều route lại và áp dụng cùng một Middleware cho tất cả các route trong nhóm đó. Điều này giúp tiết kiệm công sức khi áp dụng cùng một Middleware cho nhiều route. Để đăng ký Group Middleware, bạn cần chỉnh sửa tập tin App\Http\Kernel.php. Các Group Middleware được định nghĩa trong thuộc tính $middlewareGroups.
