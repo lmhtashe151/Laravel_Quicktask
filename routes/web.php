@@ -52,3 +52,7 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+use App\Http\Controllers\LanguageController;
+
+Route::get('change-language/{locale}', [LanguageController::class, 'changeLanguage'])->name('change.language');

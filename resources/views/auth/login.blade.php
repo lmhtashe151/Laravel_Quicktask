@@ -1,5 +1,12 @@
+
 <x-guest-layout>
     <x-authentication-card>
+        
+        <!-- Tiếng Việt -->
+        <a href="{{ route('change.language', ['locale' => 'vi']) }}">Tiếng Việt</a>
+
+        <!-- Tiếng Anh -->
+        <a href="{{ route('change.language', ['locale' => 'en']) }}">English</a>
         <x-slot name="logo">
             <x-authentication-card-logo />
         </x-slot>
